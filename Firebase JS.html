@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <title>Read,Write, select data in Firebase JS</title>
+        <body>
+            Name <input id="namebox" type="text"></input> <br><br>
+            RollNo<input id="Rollbox" type="text"></input> <br><br>
+            sections  <input id="secbox" type="text"></input>  <br><br> 
+            Gender <input id="genbox" type="text"></input> <br><br>
+            <br><br>
+            <button id="insert">INSERT</button>
+            <button id="select">SELECT</button>
+            
+
+            <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+            <script id="MainScript">
+                 // Your web app's Firebase configuration
+                        var firebaseConfig = {
+                            apiKey: "AIzaSyBI8C0VPCqW7c6m6z8wI-ZPQ3yEwyG3QU4",
+                            authDomain: "fir-js-657df.firebaseapp.com",
+                            databaseURL: "https://fir-js-657df-default-rtdb.firebaseio.com",
+                            projectId: "fir-js-657df",
+                            storageBucket: "fir-js-657df.appspot.com",
+                            messagingSenderId: "279063158535",
+                            appId: "1:279063158535:web:6d6807da3bee516e136fa2"
+                        };
+                        // Initialize Firebase
+                        firebase.initializeApp(firebaseConfig);
+      
+                   
+    //------------------Ready data----------------------------------------------------//
+                var namev, rollV, secV, genV;
+                function ready() {
+                    namev = document.getElementById('namebox').value;
+                    rollV = document.getElementById('Rollbox').value;
+                    secV = document.getElementById('secbox').value;
+                    genV = document.getElementById('genbox').value;
+
+                }                                        
+  //---------------------------Insert process---------------------------------//
+                document.getElementById('insert').onclick = function() {
+                       ready();
+                       firebase.database().ref('student/'+rollV).set({
+                           NameofStudent: namev,
+                           RollNo: rollV,
+                           sections: secV,
+                           Gender: genV
+                       });
+                       alert("insert successfully");
+                }         
+//------------------------------select process---------------------------//
+              document.getElementById('select').onclick = function() {
+                  ready();
+                  firebase.database().ref('student/'+rollV).set('value', function(snapshot){
+                      document.getElementById('namebox').value= snapshot.val().NameofStudent;
+                      document.getElementById('secbox').value=  snapshot.val().sections;
+                      document.getElementById('genbox').value=  snapshot.val().Gender;
+
+                  });
+              }
+ 
+            </script>
+        </body>
+    </head>
+</html>
